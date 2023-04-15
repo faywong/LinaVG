@@ -73,8 +73,8 @@ namespace LinaVG
                 std::cout << log.c_str() << std::endl;
             };
 
-            m_checkeredTexture = exampleBackend.CreateTexture("/Users/faywong/repo/LinaVG/_Resources/Resources/Textures/Checkered.png");
-            m_linaTexture      = exampleBackend.CreateTexture("/Users/faywong/repo/LinaVG/_Resources/Resources/Textures/Lina.png");
+            m_checkeredTexture = exampleBackend.CreateTexture("Resources/Textures/Checkered.png");
+            m_linaTexture      = exampleBackend.CreateTexture("Resources/Textures/Lina.png");
 
             // Init LinaVG
             LinaVG::Initialize();
