@@ -65,7 +65,7 @@ namespace LinaVG
 
     float Math::GetAngleBetweenDirs(const Vec2& dir1, const Vec2& dir2)
     {
-        return LVG_RAD2DEG * std::atan2f(dir1.x * dir2.y - dir1.y * dir2.x, dir1.x * dir2.x + dir1.y * dir2.y);
+        return LVG_RAD2DEG * std::atan2(dir1.x * dir2.y - dir1.y * dir2.x, dir1.x * dir2.x + dir1.y * dir2.y);
     }
 
     float Math::GetAngleBetweenShort(const Vec2& p1, const Vec2& p2)
@@ -166,7 +166,7 @@ namespace LinaVG
         if (det == 0.0f)
             return p10;
 
-        _ASSERT(det != 0.0f);
+        assert(det != 0.0f);
 
         float x = (b2 * c1 - b1 * c2) / det;
         float y = (a1 * c2 - a2 * c1) / det;
