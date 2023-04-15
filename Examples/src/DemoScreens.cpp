@@ -60,11 +60,11 @@ namespace LinaVG
 
         void DemoScreens::Initialize()
         {
-            fontDefault = LinaVG::LoadFont("/Users/faywong/repo/LinaVG/_Resources/Resources/Fonts/NotoSans-Regular.ttf", false, 18);
-            fontTitle   = LinaVG::LoadFont("/Users/faywong/repo/LinaVG/_Resources/Resources/Fonts/SourceSansPro-Regular.ttf", true, 52);
-            fontDesc    = LinaVG::LoadFont("/Users/faywong/repo/LinaVG/_Resources/Resources/Fonts/NotoSans-Regular.ttf", false, 20);
-            fontDemo    = LinaVG::LoadFont("/Users/faywong/repo/LinaVG/_Resources/Resources/Fonts/NotoSans-Regular.ttf", false, 30);
-            fontSDF     = LinaVG::LoadFont("/Users/faywong/repo/LinaVG/_Resources/Resources/Fonts/NotoSans-Regular.ttf", true, 40);
+            fontDefault = LinaVG::LoadFont("Resources/Fonts/NotoSans-Regular.ttf", false, 18);
+            fontTitle   = LinaVG::LoadFont("Resources/Fonts/SourceSansPro-Regular.ttf", true, 52);
+            fontDesc    = LinaVG::LoadFont("Resources/Fonts/NotoSans-Regular.ttf", false, 20);
+            fontDemo    = LinaVG::LoadFont("Resources/Fonts/NotoSans-Regular.ttf", false, 30);
+            fontSDF     = LinaVG::LoadFont("Resources/Fonts/NotoSans-Regular.ttf", true, 40);
 
             m_screenDescriptions.push_back("LinaVG supports variety of convex shapes, which can be partially or fully rounded, and all shapes also support filled & non-filled versions.");
             m_screenDescriptions.push_back("You can use flat colors, alphas, vertical / horizontal gradients and rounded gradients. Also, textures w/ custom UV offset & tiling are supported.");
