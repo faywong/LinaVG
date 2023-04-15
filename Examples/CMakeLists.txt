@@ -46,17 +46,44 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/LinaVG/include)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBPNG REQUIRED libpng)
+
+include_directories(${LIBPNG_INCLUDE_DIRS})
+
+include(FindBZip2)
+if (BZIP2_FOUND)
+	target_link_libraries(${PROJECT_NAME}
+			PUBLIC BZip2::BZip2
+			)
+endif ()
+
+if(APPLE)
+	find_library(COCOA_LIBRARY Cocoa)
+	find_library(OPENGL_LIBRARY OpenGL)
+	find_library(IOKIT_LIBRARY IOKit)
+	find_library(COREVIDEO_LIBRARY CoreVideo)
+	set(EXTRA_LIBS
+			${COCOA_LIBRARY}
+			${OPENGL_LIBRARY}
+			${IOKIT_LIBRARY}
+			${COREVIDEO_LIBRARY}
+			)
+endif(APPLE)
+
 #--------------------------------------------------------------------
 # Links
 #--------------------------------------------------------------------
 target_link_libraries(${PROJECT_NAME} 
-PUBLIC Lina::VG
+	PUBLIC Lina::VG
+	PUBLIC ${LIBPNG_LIBRARIES}
+	PUBLIC ${EXTRA_LIBS}
 )
 
-include(${CMAKE_SOURCE_DIR}/_Dependencies/glad/link.cmake)
+#include(${CMAKE_SOURCE_DIR}/_Dependencies/glad/link.cmake)
 include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
 link_glfw()
-link_glad()
+#link_glad()
 
 add_custom_command(
 TARGET ${PROJECT_NAME}
@@ -67,7 +94,6 @@ add_custom_command(
 TARGET ${PROJECT_NAME}
 POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/")
-
 
 #--------------------------------------------------------------------
 # Folder structuring in visual studio

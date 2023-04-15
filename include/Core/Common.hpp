@@ -44,6 +44,8 @@ Timestamp: 3/26/2022 10:36:46 AM
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <cassert>
+#include <cstring>
 
 namespace LinaVG
 {
@@ -245,7 +247,7 @@ namespace LinaVG
 
         inline void shrink(int size)
         {
-            _ASSERT(size <= m_size);
+            assert(size <= m_size);
             m_size = size;
         }
 
@@ -282,7 +284,7 @@ namespace LinaVG
 
         inline T* erase(const T* it)
         {
-            _ASSERT(it >= m_data && it < m_data + m_size);
+            assert(it >= m_data && it < m_data + m_size);
             const ptrdiff_t off = it - m_data;
             std::memmove(m_data + off, m_data + off + 1, ((size_t)m_size - (size_t)off - 1) * sizeof(T));
             m_size--;
@@ -301,13 +303,13 @@ namespace LinaVG
 
         inline T& operator[](int i)
         {
-            _ASSERT(i >= 0 && i < m_capacity);
+            assert(i >= 0 && i < m_capacity);
             return m_data[i];
         }
 
         inline const T& operator[](int i) const
         {
-            _ASSERT(i >= 0 && i < m_capacity);
+            assert(i >= 0 && i < m_capacity);
             return m_data[i];
         }
 
@@ -336,7 +338,7 @@ namespace LinaVG
 
         inline void swap(int start, int end)
         {
-            _ASSERT(start > -1 && start < m_size && end > -1 && end < m_size);
+            assert(start > -1 && start < m_size && end > -1 && end < m_size);
             T temp        = m_data[start];
             m_data[start] = m_data[end];
             m_data[end]   = temp;

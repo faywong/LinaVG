@@ -55,8 +55,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_SUPPRESS_REGENERATION true)
 
+if (MSVC)
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+endif (MSVC)
 
 #--------------------------------------------------------------------
 # Set sources
@@ -64,37 +66,36 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
 
 set(LinaVG_SOURCES 
 
-# Core
-include/LinaVG.hpp
-include/Utility/Utility.hpp
-include/Core/Renderer.hpp
-include/Core/Text.hpp
-include/Core/Drawer.hpp
-include/Core/Backend.hpp
-include/Core/Common.hpp
-include/Core/Math.hpp
-include/Backends/BaseBackend.hpp
+    # Core
+    include/LinaVG.hpp
+    include/Utility/Utility.hpp
+    include/Core/Renderer.hpp
+    include/Core/Text.hpp
+    include/Core/Drawer.hpp
+    include/Core/Backend.hpp
+    include/Core/Common.hpp
+    include/Core/Math.hpp
+    include/Backends/BaseBackend.hpp
 )
 
 if(LINAVG_BACKEND_GL)
-set(LinaVG_BackendHPP include/Backends/GL/GLBackend.hpp)
-set(LinaVG_BackendCPP src/Backends/GL/GLBackend.cpp)
+    set(LinaVG_BackendHPP include/Backends/GL/GLBackend.hpp)
+    set(LinaVG_BackendCPP src/Backends/GL/GLBackend.cpp)
 else()
-set(LinaVG_BackendHPP)
-set(LinaVG_BackendCPP)
+    set(LinaVG_BackendHPP)
+    set(LinaVG_BackendCPP)
 endif()
 
 set(LinaVG_HEADERS
 
-# Core
-src/Utility/Utility.cpp
-src/Core/Renderer.cpp
-src/Core/Text.cpp
-src/Core/Backend.cpp
-src/Core/Drawer.cpp
-src/Core/Common.cpp
-src/Core/Math.cpp
-
+    # Core
+    src/Utility/Utility.cpp
+    src/Core/Renderer.cpp
+    src/Core/Text.cpp
+    src/Core/Backend.cpp
+    src/Core/Drawer.cpp
+    src/Core/Common.cpp
+    src/Core/Math.cpp
 )
 
 #--------------------------------------------------------------------
@@ -131,24 +132,20 @@ else()
 	endif()
 endif()
 
-#--------------------------------------------------------------------
-# Folder structuring in visual studio
-#--------------------------------------------------------------------
-if(MSVC_IDE)
-	foreach(source IN LISTS LinaVG_HEADERS LinaVG_SOURCES LinaVG_BackendHPP LinaVG_BackendCPP)
-		get_filename_component(source_path "${source}" PATH)
-		string(REPLACE "${LinaVG_SOURCE_DIR}" "" relative_source_path "${source_path}")
-		string(REPLACE "/" "\\" source_path_msvc "${relative_source_path}")
-				source_group("${source_path_msvc}" FILES "${source}")
-	endforeach()
-
 if(LINAVG_BUILD_EXAMPLES)
+	#--------------------------------------------------------------------
+	# Folder structuring in visual studio
+	#--------------------------------------------------------------------
+	if(MSVC_IDE)
+		foreach(source IN LISTS LinaVG_HEADERS LinaVG_SOURCES LinaVG_BackendHPP LinaVG_BackendCPP)
+			get_filename_component(source_path "${source}" PATH)
+			string(REPLACE "${LinaVG_SOURCE_DIR}" "" relative_source_path "${source_path}")
+			string(REPLACE "/" "\\" source_path_msvc "${relative_source_path}")
+			source_group("${source_path_msvc}" FILES "${source}")
+		endforeach()
+	endif()
 	add_subdirectory(examples)
-endif()
-
-
-if(LINAVG_BUILD_EXAMPLES)
-	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Examples)
-endif()
-
+	if(MSVC_IDE)
+		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Examples)
+	endif()
 endif()

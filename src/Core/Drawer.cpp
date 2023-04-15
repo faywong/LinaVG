@@ -29,10 +29,14 @@ SOFTWARE.
 #include "Core/Drawer.hpp"
 #include "Core/Math.hpp"
 #include "Core/Renderer.hpp"
-#include "Core/Backend.hpp"
 #include "Core/Text.hpp"
 #include "Utility/Utility.hpp"
+#ifdef _MSC_VER
 #include <codecvt> // for std::codecvt_utf8
+#else
+#include <locale>
+#include <codecvt>
+#endif
 
 namespace LinaVG
 {
