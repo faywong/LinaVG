@@ -43,14 +43,17 @@ if (APPLE)
     #Get a list of all of the files in the data-folder
     file(GLOB_RECURSE RES_SOURCES "${CMAKE_SOURCE_DIR}/_Resources/Resources/*")
     add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${EXAMPLES_SOURCES} ${RES_SOURCES})
+
     #individually set the file's path properties
     foreach(RES_FILE ${RES_SOURCES})
 
-        #Get the relative path from the data-folder to the particular file
-        file(RELATIVE_PATH RES_PATH "${CMAKE_SOURCE_DIR}/_Resources/Resources" ${RES_FILE})
+        #Get the relative path from the res folder to the particular file
+        file(RELATIVE_PATH RES_PATH "${CMAKE_SOURCE_DIR}/_Resources" ${RES_FILE})
 
+        get_filename_component(RES_PATH_BASEDIR ${RES_PATH} DIRECTORY)
+        message("RES_PATH_BASEDIR: " ${RES_PATH_BASEDIR})
         #Set it's location inside the app package (under Resources)
-        set_property(SOURCE ${RES_FILE} PROPERTY MACOSX_PACKAGE_LOCATION "Resources/${RES_PATH}")
+        set_property(SOURCE ${RES_FILE} PROPERTY MACOSX_PACKAGE_LOCATION ${RES_PATH_BASEDIR})
 
     endforeach(RES_FILE)
 else ()
@@ -102,23 +105,23 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC ${PNG_LIBRARIES}
         PUBLIC ${LIBPNG_LIBRARIES}
         PUBLIC ${EXTRA_LIBS}
+        PUBLIC libglad_static
         )
 
-#include(${CMAKE_SOURCE_DIR}/_Dependencies/glad/link.cmake)
 include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
 link_glfw()
-#link_glad()
 
+# on Apple platform, use macos_bundle, otherwise copy resource
+if (NOT APPLE)
 add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/")
-
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources/Resources" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/")
 add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/")
-
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources/Resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/")
+endif ()
 #--------------------------------------------------------------------
 # Folder structuring in visual studio
 #--------------------------------------------------------------------

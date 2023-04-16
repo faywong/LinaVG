@@ -109,6 +109,8 @@ add_library(Lina::VG ALIAS ${PROJECT_NAME})
 #--------------------------------------------------------------------
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/_Dependencies/glad/include)
+
 target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_MAJOR=1)
 target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_MINOR=3)
 target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_PATCH=5)
@@ -118,8 +120,7 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_PATCH=5)
 #--------------------------------------------------------------------
 
 if(LINAVG_BACKEND_GL)
-	include(_Dependencies/glad/link.cmake)
-	link_glad()
+	add_subdirectory(_Dependencies/glad)
 endif()
 
 if(LINAVG_BUILD_EXAMPLES)
