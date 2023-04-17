@@ -97,6 +97,13 @@ if (APPLE)
             )
 endif (APPLE)
 
+if (LINUX)
+    find_package(glfw3 REQUIRED)
+else()
+    include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
+    link_glfw()
+endif()
+
 #--------------------------------------------------------------------
 # Links
 #--------------------------------------------------------------------
@@ -106,10 +113,9 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC ${LIBPNG_LIBRARIES}
         PUBLIC ${EXTRA_LIBS}
         PUBLIC libglad_static
+        PUBLIC glfw
+        PUBLIC Freetype::Freetype
         )
-
-include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
-link_glfw()
 
 # on Apple platform, use macos_bundle, otherwise copy resource
 if (NOT APPLE)
