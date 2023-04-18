@@ -99,6 +99,10 @@ endif (APPLE)
 
 if (LINUX)
     find_package(glfw3 REQUIRED)
+    get_cmake_property(_variableNames VARIABLES)
+    foreach (_variableName ${_variableNames})
+        message(STATUS "${_variableName}=${${_variableName}}")
+    endforeach()
 else()
     include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
     link_glfw()
@@ -114,19 +118,19 @@ target_link_libraries(${PROJECT_NAME}
         PUBLIC ${EXTRA_LIBS}
         PUBLIC libglad_static
         PUBLIC glfw
-        PUBLIC Freetype::Freetype
+        PUBLIC ${FREETYPE2_LINK_LIBRARIES}
         )
 
 # on Apple platform, use macos_bundle, otherwise copy resource
 if (NOT APPLE)
-add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources/Resources" "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/")
-add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources/Resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/")
+    add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources/Resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/")
+    add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_SOURCE_DIR}/_Resources/Resources" "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>/")
 endif ()
 #--------------------------------------------------------------------
 # Folder structuring in visual studio

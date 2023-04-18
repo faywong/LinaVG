@@ -116,6 +116,7 @@ Note: LinaVG requires C++ 17 features.
 
 You can download this whole repository and generate the project files using CMake to run the example application, demonstrating all capabilities of LinaVG.
 
+## Windows
 ```shell
 
 # Clone repo
@@ -134,6 +135,12 @@ cmake --build . --target ALL_BUILD
 ```
 
 CMake build process downloads the pre-built dependencies during configuration. If you choose to build & run the demo application using another method, remember to get the required dependency binaries from [Lina Dependencies](https://github.com/inanevin/LinaDependencies/tree/linavg) repository.
+
+## Linux
+
+```shell
+sudo apt-get install libfreetype-dev libbz2-dev libglfw3-dev
+```
 
 # Quick Demonstration
 
