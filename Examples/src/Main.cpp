@@ -29,7 +29,8 @@ SOFTWARE.
 #include "Main.hpp"
 #include "LinaVG.hpp"
 #include <iostream>
-#include <chrono>
+//#include <chrono>
+//#include <filesystem>
 #include "Backends/OpenGLGLFW.hpp"
 
 int main(int argc, char* argv[])
@@ -73,8 +74,10 @@ namespace LinaVG
                 std::cout << log.c_str() << std::endl;
             };
 
-            m_checkeredTexture = exampleBackend.CreateTexture("/Users/faywong/repo/LinaVG/_Resources/Resources/Textures/Checkered.png");
-            m_linaTexture      = exampleBackend.CreateTexture("/Users/faywong/repo/LinaVG/_Resources/Resources/Textures/Lina.png");
+//            std::cout<<"cwd: "<<std::filesystem::current_path()<<std::endl;
+
+            m_checkeredTexture = exampleBackend.CreateTexture("Textures/Checkered.png");
+            m_linaTexture      = exampleBackend.CreateTexture("Textures/Lina.png");
 
             // Init LinaVG
             LinaVG::Initialize();

@@ -30,6 +30,10 @@ With that in mind, you can use LinaVG to build both retained and immediate mode 
 
 LinaVG was initially made for [Lina Engine](https://www.github.com/inanevin/LinaEngine), however this library is completely decoupled from it. You can use LinaVG in your own projects with minimal dependencies. 
 
+# Thread-safety
+
+LinaVG is thread-safe as long as the [Threading](https://github.com/inanevin/LinaVG/wiki/13-Threading) guidelines are followed. Only functions that are not thread-safe at the moment are those used for loading fonts, which require wrapping around a mutex.
+
 # Features
 
 ![lina](https://user-images.githubusercontent.com/3519379/173691256-289869b6-7fa9-462b-b2ef-28d6680c7bdd.gif)
@@ -112,6 +116,7 @@ Note: LinaVG requires C++ 17 features.
 
 You can download this whole repository and generate the project files using CMake to run the example application, demonstrating all capabilities of LinaVG.
 
+## Windows
 ```shell
 
 # Clone repo
@@ -130,6 +135,12 @@ cmake --build . --target ALL_BUILD
 ```
 
 CMake build process downloads the pre-built dependencies during configuration. If you choose to build & run the demo application using another method, remember to get the required dependency binaries from [Lina Dependencies](https://github.com/inanevin/LinaDependencies/tree/linavg) repository.
+
+## Linux
+
+```shell
+sudo apt-get install libfreetype-dev libbz2-dev libglfw3-dev
+```
 
 # Quick Demonstration
 

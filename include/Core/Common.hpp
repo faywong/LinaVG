@@ -285,7 +285,7 @@ namespace LinaVG
         inline T* erase(const T* it)
         {
             assert(it >= m_data && it < m_data + m_size);
-            const ptrdiff_t off = it - m_data;
+            const std::ptrdiff_t off = it - m_data;
             std::memmove(m_data + off, m_data + off + 1, ((size_t)m_size - (size_t)off - 1) * sizeof(T));
             m_size--;
             return m_data + off;

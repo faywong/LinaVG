@@ -16,7 +16,6 @@
 LinaEngineBuildLauncher
 [Bb]uild_Win32
 [Bb]uild_x64
-_Dependencies
 
 #Lina Engine Tools
 *.jar
@@ -97,6 +96,8 @@ ipch/
 *.vsp
 *.vspx
 *.sap
+
+.cache
 
 # TFS 2012 Local Workspace
 $tf/

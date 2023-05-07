@@ -109,24 +109,30 @@ add_library(Lina::VG ALIAS ${PROJECT_NAME})
 #--------------------------------------------------------------------
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/_Dependencies/glad/include)
+
 target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_MAJOR=1)
 target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_MINOR=3)
-target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_PATCH=4)
+target_compile_definitions(${PROJECT_NAME} PUBLIC LINAVG_VERSION_PATCH=5)
 
 #--------------------------------------------------------------------
 # Subdirectories & linking
 #--------------------------------------------------------------------
 
 if(LINAVG_BACKEND_GL)
-	include(_Dependencies/glad/link.cmake)
-	link_glad()
+	add_subdirectory(_Dependencies/glad)
 endif()
 
-if(LINAVG_BUILD_EXAMPLES)
-	include(_Dependencies/freetype/link.cmake)
-	link_freetype()
-else()
-	if(LINAVG_TEXT_SUPPORT)
+
+if(LINAVG_BUILD_EXAMPLES OR LINAVG_TEXT_SUPPORT)
+	if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+		find_package(PkgConfig REQUIRED)
+		pkg_check_modules(FREETYPE2 REQUIRED freetype2)
+		if (NOT FREETYPE2_FOUND)
+			message("FREETYPE2 not found! ")
+		endif()
+		include_directories(${FREETYPE2_INCLUDE_DIRS})
+	else()
 		include(_Dependencies/freetype/link.cmake)
 		link_freetype()
 	endif()
@@ -144,7 +150,7 @@ if(LINAVG_BUILD_EXAMPLES)
 			source_group("${source_path_msvc}" FILES "${source}")
 		endforeach()
 	endif()
-	add_subdirectory(examples)
+	add_subdirectory(Examples)
 	if(MSVC_IDE)
 		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Examples)
 	endif()
