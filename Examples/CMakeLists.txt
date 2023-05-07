@@ -47,6 +47,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/LinaVG/include)
 
 find_package(PkgConfig REQUIRED)
+message("build system is ${CMAKE_SYSTEM_NAME}")
+if (MSYS)
+set(ENV{PKG_CONFIG_PATH} "/mingw64/lib/pkgconfig")
+endif()
 pkg_check_modules(LIBPNG REQUIRED libpng)
 
 include_directories(${LIBPNG_INCLUDE_DIRS})
@@ -68,8 +72,12 @@ if(APPLE)
 			${OPENGL_LIBRARY}
 			${IOKIT_LIBRARY}
 			${COREVIDEO_LIBRARY}
-			)
-endif(APPLE)
+	)
+elseif(WIN32)
+	set(EXTRA_LIBS
+		gdi32
+	)
+endif()
 
 #--------------------------------------------------------------------
 # Links
@@ -80,10 +88,8 @@ target_link_libraries(${PROJECT_NAME}
 	PUBLIC ${EXTRA_LIBS}
 )
 
-#include(${CMAKE_SOURCE_DIR}/_Dependencies/glad/link.cmake)
 include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
 link_glfw()
-#link_glad()
 
 add_custom_command(
 TARGET ${PROJECT_NAME}

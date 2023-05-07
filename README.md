@@ -184,6 +184,43 @@ And that's basically it! Now you should have this on your screen, easy peasy.
 
 There are a lot more to LinaVG in regards to usage, configuration, other shapes/lines/texts and styling. Check out the rest of the Wiki or the example application to learn about them all.
 
+# build in MinGW64/MSYS2 on windows
+
+## Install dependencies
+
+```shell
+pacman -S mingw-w64-x86_64-qt-creator
+pacman -S mingw-w64-x86_64-qt5-static
+pacman -S cmake make mingw-w64-x86_64-make mingw-w64-x86_64-gdb mingw-w64-x86_64-gcc mingw-w64-x86_64-llvm mingw-w64-x86_64-ninja cmake git mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-gcc
+pacman -S base-devel gcc
+pacman -S mingw-w64-x86_64-libpng libbz2-devel
+```
+
+## Enable MSYS2 as VSCode terminal 
+
+add this to vs code settings.json:
+
+```json
+"terminal.integrated.shell.windows": "C:\\msys64\\usr\\bin\\bash.exe",
+    "terminal.integrated.shellArgs.windows": [
+        "--login",
+        "-i"
+    ],
+    "terminal.integrated.profiles.windows": {
+        "msys mingw64": {
+            "path": "C:/msys64/msys2_shell.cmd",
+            "args": [
+                "-defterm",
+                "-here",
+                "-no-start",
+                "-mingw64"
+            ]
+        }
+    },
+```
+
+moreover, refer to https://stackoverflow.com/questions/43302853/using-msys-shell-in-visual-studio-code
+
 # License
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
