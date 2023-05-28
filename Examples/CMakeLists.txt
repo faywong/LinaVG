@@ -98,23 +98,28 @@ if (APPLE)
             ${OPENGL_LIBRARY}
             ${IOKIT_LIBRARY}
             ${COREVIDEO_LIBRARY}
-			glfw
+            glfw
             )	
 endif ()
 
 if (WIN32)
     include(${CMAKE_SOURCE_DIR}/_Dependencies/glfw/link.cmake)
     link_glfw()
-	set(EXTRA_LIBS
-		gdi32
-	)
+    set(EXTRA_LIBS
+        gdi32)
 else ()
     # this imply add_library(glfw)
     find_package(glfw3 REQUIRED)
-    if (NOT glfw3_FOUND)
+
+    if (glfw3_FOUND)
+        set(EXTRA_LIBS
+            glfw)
+    else ()
         message("Error: glfw3 not found!")
     endif ()
 endif ()
+
+# DEBUG ONLY UTIL:
 # print all cmake variables
 #get_cmake_property(_variableNames VARIABLES)
 #foreach (_variableName ${_variableNames})
